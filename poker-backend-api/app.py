@@ -8,6 +8,11 @@ def index():
     return {'hello': 'world'}
 
 
+# This is a basic health check used by test_hello.py
+@app.route('/hello/world')
+def index():
+    return {'hello': 'world'}
+
 # The view function above will return {"hello": "world"}
 # whenever you make an HTTP GET request to '/'.
 #
