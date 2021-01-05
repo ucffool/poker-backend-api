@@ -1,3 +1,3 @@
-![Build Status](https://github.com/<OWNER>/<REPOSITORY>/workflows/<WORKFLOW_NAME>/badge.svg)
+![Build Status](https://github.com/ucffool/poker-backend-api/workflows/python-app/badge.svg)
 
 Python powered, Chalice built, poker backend API for AWS Lambdas and API gateway.
