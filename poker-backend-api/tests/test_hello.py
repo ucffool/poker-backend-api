@@ -35,4 +35,3 @@ class TestChalice(object):
         assert response['statusCode'] == 200
         j = (json.loads(response['body']))
         assert len(j['winners']) > 0
-

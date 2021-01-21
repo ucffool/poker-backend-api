@@ -33,7 +33,7 @@ def index():
     # TODO https://stackoverflow.com/questions/17821079/how-to-check-if-two-keys-in-dictionary-hold-the-same-value
     output["winners"] = winner
     output["tie"] = tie
-    output["card"] = card
+    output["card"] = Card.int_to_str(card)
     j = json.dumps(output)
     return j
 
