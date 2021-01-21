@@ -17,7 +17,7 @@ def gateway_factory():
 
 class TestChalice(object):
 
-    def test_index(self, gateway_factory):
+    def test_hello_world(self, gateway_factory):
         gateway = gateway_factory()
         response = gateway.handle_request(method='GET',
                                           path='/hello/world',
@@ -25,3 +25,14 @@ class TestChalice(object):
                                           body='')
         assert response['statusCode'] == 200
         assert json.loads(response['body']) == dict([('hello', 'world')])
+
+    def test_treys(self, gateway_factory):
+        gateway = gateway_factory()
+        response = gateway.handle_request(method='GET',
+                                          path='/treys',
+                                          headers={},
+                                          body='')
+        assert response['statusCode'] == 200
+        j = (json.loads(response['body']))
+        assert len(j['winners']) > 0
+
