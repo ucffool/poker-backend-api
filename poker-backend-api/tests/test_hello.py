@@ -20,7 +20,7 @@ class TestChalice(object):
     def test_hello_world(self, gateway_factory):
         gateway = gateway_factory()
         response = gateway.handle_request(method='GET',
-                                          path='/hello/world',
+                                          path='/noauth/hello/world',
                                           headers={},
                                           body='')
         assert response['statusCode'] == 200
@@ -29,7 +29,7 @@ class TestChalice(object):
     def test_treys(self, gateway_factory):
         gateway = gateway_factory()
         response = gateway.handle_request(method='GET',
-                                          path='/treys',
+                                          path='/noauth/treys',
                                           headers={},
                                           body='')
         assert response['statusCode'] == 200
