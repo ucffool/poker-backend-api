@@ -1,8 +1,24 @@
 from chalice import Chalice
 from chalicelib.noauth import noauth
+import json
+import time
 
 app = Chalice(app_name='poker-backend-api')
 app.register_blueprint(noauth, url_prefix="/noauth")
+app.debug = True
+# app.log.info(somethingGoesHere)
+
+
+@app.middleware('http')
+def inject_time(event, get_response):
+    start = time.time()
+    response = get_response(event)
+    body = response.body
+    body_obj = json.loads(body) if type(body) == str else body
+    total = time.time() - start
+    body_obj.setdefault('metadata', {})['duration'] = total
+    response.body = body_obj
+    return response
 
 
 @app.route('/')

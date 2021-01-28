@@ -24,7 +24,7 @@ class TestChalice(object):
                                           headers={},
                                           body='')
         assert response['statusCode'] == 200
-        assert json.loads(response['body']) == dict([('hello', 'world')])
+        assert json.loads(response['body'])['hello'] == 'world'
 
     def test_treys(self, gateway_factory):
         gateway = gateway_factory()
