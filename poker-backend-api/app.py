@@ -1,4 +1,4 @@
-from chalice import Chalice
+from chalice import Chalice, AuthResponse
 from chalicelib.noauth import noauth
 import json
 import time
@@ -21,9 +21,25 @@ def inject_time(event, get_response):
     return response
 
 
+@app.authorizer()
+def basic_auth_insecure(auth_request):
+    token = auth_request.token
+    if token == 'allow':
+        # A principal id may be a username, email address, or userid
+        return AuthResponse(routes=['*'], principal_id='user')
+    else:
+        # routes=[] would mean there are no valid routes for them
+        return AuthResponse(routes=[], principal_id='invalid')
+
+
 @app.route('/')
 def index():
     return {'hello': 'world'}
+
+
+@app.route('/auth', authorizer=basic_auth_insecure)
+def index():
+    return {'app.current_request.context': app.current_request.context}
 
 
 # The view function above will return {"hello": "world"}
