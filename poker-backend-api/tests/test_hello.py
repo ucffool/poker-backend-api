@@ -1,8 +1,43 @@
 import json
 import pytest
 from app import app
+from chalice.test import Client
 
 
+# Using the testing framework in Chalice tutorials
+@pytest.fixture
+def test_client():
+    with Client(app) as client:
+        yield client
+
+
+def test_noauth_hello_world():
+    with Client(app) as client:
+        response = client.http.get('/noauth/hello/world')
+        # app.log.info(response.json_body)
+        assert response.status_code == 200
+        assert response.json_body['hello'] == 'world'  # response.json_body returns a `dict`
+        assert json.loads(response.body)['hello'] == 'world'  # response.body returns bytes
+
+
+def test_noauth_treys():
+    with Client(app) as client:
+        response = client.http.get('/noauth/treys')
+        assert response.status_code == 200
+        assert len(response.json_body['winners']) > 0
+
+
+def test_auth_allow_deny_missing():
+    with Client(app) as client:
+        assert client.http.get(
+            '/auth', headers={'Authorization': 'allow'}).status_code == 200
+        assert client.http.get(
+            '/auth', headers={'Authorization': 'deny'}).status_code == 403
+        assert client.http.get(
+            '/auth', headers={}).status_code == 401
+
+# using testing framework by some rando on the internet
+"""
 @pytest.fixture
 def gateway_factory():
     from chalice.config import Config
@@ -16,7 +51,6 @@ def gateway_factory():
 
 
 class TestChalice(object):
-
     def test_hello_world(self, gateway_factory):
         gateway = gateway_factory()
         response = gateway.handle_request(method='GET',
@@ -61,3 +95,4 @@ class TestChalice(object):
         assert response['statusCode'] == 200
         j = (json.loads(response['body']))
         assert len(j['winners']) > 0
+"""
