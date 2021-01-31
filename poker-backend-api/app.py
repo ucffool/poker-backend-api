@@ -1,11 +1,11 @@
 from chalice import Chalice, AuthResponse
-from chalicelib.noauth import noauth
+from chalicelib.noauth import noauth  # blueprints
 import json
 import time
 
 app = Chalice(app_name='poker-backend-api')
-app.register_blueprint(noauth, url_prefix="/noauth")
-app.debug = True
+app.register_blueprint(noauth, url_prefix="/noauth")  # blueprints
+app.debug = True  # DEBUG
 # app.log.info(somethingGoesHere)
 
 
