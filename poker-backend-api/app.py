@@ -2,6 +2,10 @@ from chalice import Chalice, AuthResponse
 from chalicelib.noauth import noauth  # blueprints
 import json
 import time
+# for importing .env variables
+import os
+from dotenv import load_dotenv
+load_dotenv()  # take environment variables from .env accessible with os.environ.get['NAME']
 
 app = Chalice(app_name='poker-backend-api')
 app.register_blueprint(noauth, url_prefix="/noauth")  # blueprints
