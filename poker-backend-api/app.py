@@ -2,6 +2,7 @@ from chalice import Chalice, AuthResponse
 from chalicelib.noauth import noauth  # blueprints
 import json
 import time
+from uuid import uuid4
 # for importing .env variables
 import os
 from dotenv import load_dotenv
@@ -21,6 +22,7 @@ def inject_time(event, get_response):
     body_obj = json.loads(body) if type(body) == str else body
     total = time.time() - start
     body_obj.setdefault('metadata', {})['duration'] = total
+    body_obj.setdefault('metadata', {})['uuid'] = str(uuid4())
     response.body = body_obj
     return response
 

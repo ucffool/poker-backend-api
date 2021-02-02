@@ -1,2 +1,4 @@
 treys
 python-dotenv
+uuid
+boto3

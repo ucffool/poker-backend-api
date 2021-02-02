@@ -2,6 +2,10 @@ import json
 import pytest
 from app import app
 from chalice.test import Client
+# for importing .env variables
+import os
+from dotenv import load_dotenv
+load_dotenv()  # take environment variables from .env.
 
 
 # Using the testing framework in Chalice tutorials
@@ -36,6 +40,11 @@ def test_auth_allow_deny_missing():
         assert client.http.get(
             '/auth', headers={}).status_code == 401
 
+
+@pytest.mark.skipif(not os.path.isfile("../.env"),
+                    reason="requires .env file to be present")
+def test_env_domain():
+    assert os.environ.get('DOMAIN') == 'pokermuster.com'
 
 # using testing framework by some rando on the internet
 """
