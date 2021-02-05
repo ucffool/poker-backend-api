@@ -13,17 +13,15 @@ parser.add_argument('-dd', '--destroy', default=False, action='store_true',
 args = parser.parse_args()
 
 if args.env == 'prod':
-    dynamodb = boto3.client('dynamodb', region_name=args.region)
-    wait_delay = 20
+    dynamodb = boto3.resource('dynamodb', region_name=args.region)
 else:
     endpoint = "http://localhost:" + args.port
-    dynamodb = boto3.client('dynamodb', region_name=args.region, endpoint_url=endpoint)
-    wait_delay = 1
+    dynamodb = boto3.resource('dynamodb', region_name=args.region, endpoint_url=endpoint)
 
 
 def create_api_users_table(ddb=None):
     if ddb:
-        table = ddb.create_table(
+        create_table = ddb.create_table(
             TableName='api-users',
             KeySchema=[
                 {
@@ -47,7 +45,8 @@ def create_api_users_table(ddb=None):
             ],
             BillingMode="PAY_PER_REQUEST"
         )
-    return table
+    # noinspection PyUnboundLocalVariable
+    return create_table
 
 
 # Check to see if the table already exists
@@ -61,25 +60,27 @@ except dynamodb.exceptions.ResourceNotFoundException:
 
 if __name__ == '__main__':
     if args.delete or args.destroy:
+        table = dynamodb.Table("api-users")
         try:
-            dynamodb.describe_table(TableName="api-users")
-            dynamodb.delete_table(TableName="api-users")
-            del_waiter = dynamodb.get_waiter('table_not_exists')
-            del_waiter.wait(TableName='api-users', WaiterConfig={'Delay': wait_delay})
+            table.delete()
+            table.wait_until_not_exists()
             print("Table deleted: `api-users`")
+        except dynamodb.meta.client.exceptions.ResourceNotFoundException:
+            print("`api-users` table doesn't exist; nothing deleted.")
         finally:
             pass
     if not args.destroy:
         # create `api-users` table
         try:
             api_users_table = create_api_users_table(dynamodb)
-            print("Table status (`api-users`):", api_users_table['TableDescription']['TableStatus'])
-            create_waiter = dynamodb.get_waiter('table_exists')
-            create_waiter.wait(TableName='api-users', WaiterConfig={'Delay': wait_delay})
+            print(f"Table being created (`api-users`): {api_users_table.table_status}")
+            api_users_table.wait_until_exists()
             print("Table created: `api-users`")
-        except dynamodb.exceptions.ResourceInUseException:
+        except dynamodb.meta.client.exceptions.ResourceInUseException:
+            api_users_table = dynamodb.Table('api-users')
             print("`api-users` table already exists. To delete it first, pass the -d flag.")
             pass
+        print(api_users_table.key_schema, api_users_table.attribute_definitions)
 
 user = "admin"
 token = uuid4()

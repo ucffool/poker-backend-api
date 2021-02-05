@@ -28,3 +28,16 @@ region=xx-xxxx-#
 
 Please see [boto3's docs](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#aws-config-file) for more information.
 
+## Creating DynamoDB Initial Tables
+
+From the terminal, you can run `createtables.py` to build the initial tables for your API. There are various optional arguments available:
+```
+optional arguments:
+  -h, --help             show this help message and exit
+  -e, --env {local,prod} DynamoDB Database Location (default: local)
+  -r, --region REGION    AWS Region -- optional for local (default: us-west-2)
+  -p PORT, --port PORT   Port used only for local (default: 8000)
+  -d, --delete           Delete table, if exists, before create (default: False)
+  -dd, --destroy         Delete table, if exists. Do not create (default: False)
+
+```
