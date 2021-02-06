@@ -34,9 +34,9 @@ def test_noauth_treys():
 def test_auth_allow_deny_missing():
     with Client(app) as client:
         assert client.http.get(
-            '/auth', headers={'Authorization': 'allow'}).status_code == 200
+            '/auth', headers={'Authorization': 'Basic YWRtaW46YWxsb3c='}).status_code == 200
         assert client.http.get(
-            '/auth', headers={'Authorization': 'deny'}).status_code == 403
+            '/auth', headers={'Authorization': 'Basic deny'}).status_code == 403
         assert client.http.get(
             '/auth', headers={}).status_code == 401
 

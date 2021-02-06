@@ -30,7 +30,7 @@ def inject_time(event, get_response):
 @app.authorizer()
 def basic_auth_insecure(auth_request):
     token = auth_request.token
-    if token == 'allow':
+    if token == 'Basic YWRtaW46YWxsb3c=':  # "admin:allow"
         # A principal id may be a username, email address, or userid
         return AuthResponse(routes=['*'], principal_id='user')
     else:
