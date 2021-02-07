@@ -39,6 +39,8 @@ def test_auth_allow_deny_missing():
             '/auth', headers={'Authorization': 'Basic deny'}).status_code == 403
         assert client.http.get(
             '/auth', headers={}).status_code == 401
+        assert not client.http.get(  # auth is valid, but route is not allowed
+            '/auth-user', headers={'Authorization': 'Basic YWRtaW46YWxsb3c='}).status_code == 200
 
 
 @pytest.mark.skipif(not os.path.isfile("../.env"),

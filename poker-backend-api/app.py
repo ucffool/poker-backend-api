@@ -32,7 +32,8 @@ def basic_auth_insecure(auth_request):
     token = auth_request.token
     if token == 'Basic YWRtaW46YWxsb3c=':  # "admin:allow"
         # A principal id may be a username, email address, or userid
-        return AuthResponse(routes=['*'], principal_id='user')
+        # routes=['*'] would allow any route
+        return AuthResponse(routes=['/auth'], principal_id='user')
     else:
         # routes=[] would mean there are no valid routes for them
         return AuthResponse(routes=[], principal_id='invalid')
@@ -44,6 +45,11 @@ def index():
 
 
 @app.route('/auth', authorizer=basic_auth_insecure)
+def index():
+    return {'app.current_request.context': app.current_request.context}
+
+
+@app.route('/auth-user', authorizer=basic_auth_insecure)
 def index():
     return {'app.current_request.context': app.current_request.context}
 
