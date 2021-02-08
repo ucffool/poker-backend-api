@@ -3,7 +3,11 @@
   "app_name": "poker-backend-api",
   "stages": {
     "dev": {
-      "api_gateway_stage": "api"
+      "api_gateway_stage": "api",
+      "environment_variables": {
+        "dynamodb-region": "us-west-2",
+        "dynamodb-port": "8000"
+      }
     }
   }
 }
