@@ -2,6 +2,20 @@
 
 Python powered, Chalice built, poker backend API for AWS Lambdas and API gateway.
 
+# Status: _Alpha_ v0.1
+## TODO
+- [x] Table creation and user creation scripts PoC
+- [ ] Refactor table/user creation scripts and add more tables
+- [ ] Basic Auth from DynamoDB `api-users` table and accompanying @app.authorizer
+- [ ] /treys -- determine winners when there is a tie
+- [ ] /treys -- rewrite as functional programming
+- [ ] everything else
+
+## API Design Doc (as of 2021-02-12)
+![API Design Doc](https://trello-attachments.s3.amazonaws.com/592d038bda072395d222f053/5e818c9431f7f6048340fc69/6b6f4ffef50c737c512a20a1ebd4b2e6/poker-api.png)
+
+## Installing Chalice
+
 ```
 pip3 install chalice
 ```
