@@ -1,5 +1,5 @@
 # Used for GitHub workflow to perform pytest
-chalice==1.27.3
+chalice==1.30.0
 treys==0.1.8
 python-dotenv==0.21.0
 uuid==1.30
