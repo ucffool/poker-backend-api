@@ -12,7 +12,7 @@ Python powered, Chalice built, poker backend API for AWS Lambdas and API gateway
 - [ ] everything else
 
 ## API Design Doc (as of 2021-02-12)
-![API Design Doc](https://trello-attachments.s3.amazonaws.com/592d038bda072395d222f053/5e818c9431f7f6048340fc69/6b6f4ffef50c737c512a20a1ebd4b2e6/poker-api.png)
+![API Design Doc](https://mariolurig.com/poker-api.png)
 
 ## Installing Chalice
 
